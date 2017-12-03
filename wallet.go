@@ -21,7 +21,7 @@ func (c *WalletClient) StopWallet() error {
 }
 func (c *WalletClient) GetAddress() (string, error) {
 	var address string
-	if err := call(c.endpoint, "getaddress", nil, &address); err != nil {
+	if err := call(c.endpoint, "getaddress", nil, address); err != nil {
 		return "", err
 	}
 	return address, nil
