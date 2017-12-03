@@ -9,9 +9,8 @@ package monerogo
 // unlocked_balance - unsigned int; Unlocked funds are those funds that are sufficiently deep enough in the Monero blockchain to be considered safe to spend.
 // status - string; General RPC error code. "OK" means everything looks good.
 type BalanceResponse struct {
-	Lockedbalance   uint   `json:"lockedbalance"`
-	Unlockedbalance uint   `json:"unlockedbalance"`
-	Status          string `json:"status"`
+	Lockedbalance   uint `json:"lockedbalance"`
+	Unlockedbalance uint `json:"unlockedbalance"`
 }
 
 // AddressResponse
@@ -19,15 +18,13 @@ type BalanceResponse struct {
 // status - string; General RPC error code. "OK" means everything looks good.
 type AddressResponse struct {
 	Address string `json:"address"`
-	Status  string `json:"status"`
 }
 
 // WalletHeight
 // height - unsigned int; The current monero-wallet-rpc's blockchain height. If the wallet has been offline for a long time, it may need to catch up with the daemon.
 // status - string; General RPC error code. "OK" means everything looks good.
 type WalletHeight struct {
-	Height uint   `json:"height"`
-	Status string `json:"status"`
+	Height uint `json:"height"`
 }
 
 // TransferDestinations
@@ -75,7 +72,6 @@ type TransferResponse struct {
 // status - string; General RPC error code. "OK" means everything looks good.
 type SweepDustResponse struct {
 	TxHashList []string `json:"tx_hash_list"`
-	Status     string   `json:"status"`
 }
 
 // SweepAllRequest
@@ -108,7 +104,6 @@ type SweepAllResponse struct {
 	TxHashList []string `json:"tx_hash_list"`
 	TxKeyList  []string `json:"tx_key_list"`
 	TxBlobList []string `json:"tx_blob_list, omitempty"`
-	Status     string   `json:"status"`
 }
 
 // Payments
@@ -130,7 +125,6 @@ type Payments struct {
 // status - string; General RPC error code. "OK" means everything looks good.
 type GetPaymentsResponse struct {
 	Payments []Payments
-	Status   string
 }
 
 // Transfer
@@ -187,7 +181,6 @@ type GetTransfersResponse struct {
 	Pending []Transfer `json:"pending"`
 	Failed  []Transfer `json:"failed"`
 	Pool    []Transfer `json:"pool"`
-	Status  string     `json:"status"`
 }
 
 // GetTransferByIDResponse - maybe useless if use only Transfer struct?
@@ -208,7 +201,6 @@ type GetTransferByIDResponse struct {
 	Timestamp uint   `json:"timestamp"`
 	TxID      string `json:"txid"`
 	Type      string `json:"type"`
-	Status    string `json:"status"`
 }
 
 // IncomingTransfer
@@ -228,18 +220,4 @@ type IncomingTransfer struct {
 // IncomingTransferResponse - response containing an array of transfers and the RPC status.
 type IncomingTransferResponse struct {
 	Transfers []IncomingTransfer `json:"transfers"`
-	Status    string             `json:"status"`
-}
-
-// SignResponse
-// signature - signed string
-type SignResponse struct {
-	Signature string `json:"signature"`
-	Status    string `json:"status"`
-}
-
-// EmptyResponse
-// Use for requests that return empty, status tells you if was successful.
-type EmptyResponse struct {
-	Status string `json:"status"`
 }

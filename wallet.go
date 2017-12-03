@@ -14,17 +14,22 @@ func NewWalletClient(endpoint string) *WalletClient {
 
 // StopWallet -  Stops the Wallet.
 func (c *WalletClient) StopWallet() error {
-	var resp EmptyResponse
-	if err := call(c.endpoint, "stop_wallet", nil, resp); err != nil {
+	if err := call(c.endpoint, "stop_wallet", nil, nil); err != nil {
 		return err
 	}
 	return nil
 }
+func (c *WalletClient) GetAddress() (string, error) {
+	var address string
+	if err := call(c.endpoint, "getaddress", nil, &address); err != nil {
+		return "", err
+	}
+	return address, nil
+}
 
 // RescanWalletChain - Rescans the blockchain for the wallet in use.
 func (c *WalletClient) RescanWalletChain() error {
-	var resp EmptyResponse
-	if err := call(c.endpoint, "rescan_blockchain", nil, resp); err != nil {
+	if err := call(c.endpoint, "rescan_blockchain", nil, nil); err != nil {
 		return err
 	}
 	return nil
@@ -41,12 +46,11 @@ func (c *WalletClient) SignString(data string) (string, error) {
 
 // OpenWallet - Opens the wallet from the wallet directory given on server start flags.
 func (c *WalletClient) OpenWallet(filename string, password string) error {
-	var resp EmptyResponse
 	req := struct {
 		fileName string `json:"filename"`
 		passWord string `json:"password"`
 	}{filename, password}
-	if err := call(c.endpoint, "open_wallet", req, resp); err != nil {
+	if err := call(c.endpoint, "open_wallet", req, nil); err != nil {
 		return err
 	}
 	return nil
@@ -54,13 +58,12 @@ func (c *WalletClient) OpenWallet(filename string, password string) error {
 
 // CreateWallet - Creates a wallet to the wallet directory.
 func (c *WalletClient) CreateWallet(filename string, password string, language string) error {
-	var resp EmptyResponse
 	req := struct {
 		fileName string `json:"filename"`
 		passWord string `json:"password"`
 		language string `json:"language"`
 	}{filename, password, language}
-	if err := call(c.endpoint, "create_wallet", req, resp); err != nil {
+	if err := call(c.endpoint, "create_wallet", req, nil); err != nil {
 		return err
 	}
 	return nil
@@ -68,13 +71,12 @@ func (c *WalletClient) CreateWallet(filename string, password string, language s
 
 // StartMining - Starts mining with the connected Daemon.
 func (c *WalletClient) StartMining(threadcount uint, background bool, battery bool) error {
-	var resp EmptyResponse
 	req := struct {
 		threadCount uint `json:"threads_count"`
 		backGround  bool `json:"do_background_mining"`
 		battery     bool `json:"ignore_battery"`
 	}{threadcount, background, battery}
-	if err := call(c.endpoint, "start_mining", req, resp); err != nil {
+	if err := call(c.endpoint, "start_mining", req, nil); err != nil {
 		return err
 	}
 	return nil
@@ -82,8 +84,7 @@ func (c *WalletClient) StartMining(threadcount uint, background bool, battery bo
 
 // StopMining - Stops mining with the daemon.
 func (c *WalletClient) StopMining() error {
-	var resp EmptyResponse
-	if err := call(c.endpoint, "stop_mining", nil, resp); err != nil {
+	if err := call(c.endpoint, "stop_mining", nil, nil); err != nil {
 		return err
 	}
 	return nil
