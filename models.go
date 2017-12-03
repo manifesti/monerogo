@@ -23,7 +23,7 @@ type BlockCount struct {
 // reserved_offset - unsigned int; Reserved offset.
 // status - string; General RPC error code. "OK" means everything looks good.
 type BlockTemplate struct {
-	BlockTemplateBlob string `json:"blocktemplate_blob "`
+	BlockTemplateBlob string `json:"blocktemplate_blob"`
 	Difficulty        uint   `json:"difficulty"`
 	Height            uint   `json:"height"`
 	PrevHash          string `json:"prev_hash"`

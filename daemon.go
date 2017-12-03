@@ -3,16 +3,17 @@
 // license that can be found in the LICENSE file.
 package monerogo
 
+// DaemonClient - holds the address of the server
 type DaemonClient struct {
 	endpoint string
 }
 
-// Creates new daemon client
+// NewDaemonClient - Creates new daemon client
 func NewDaemonClient(endpoint string) *DaemonClient {
 	return &DaemonClient{endpoint: endpoint}
 }
 
-// Look up how many blocks are in the longest chain known to the node.
+// GetBlockCount - Look up how many blocks are in the longest chain known to the node.
 func (c *DaemonClient) GetBlockCount() (BlockCount, error) {
 	var bc BlockCount
 	if err := call(c.endpoint, "getblockcount", nil, &bc); err != nil {
@@ -21,7 +22,7 @@ func (c *DaemonClient) GetBlockCount() (BlockCount, error) {
 	return bc, nil
 }
 
-// Look up a block's hash by its height.
+// OnGetBlockHash - Look up a block's hash by its height.
 func (c *DaemonClient) OnGetBlockHash(blockHeight int) (string, error) {
 	var blockHash string
 	if err := call(c.endpoint, "on_getblockhash", []int{blockHeight}, &blockHash); err != nil {
@@ -31,7 +32,7 @@ func (c *DaemonClient) OnGetBlockHash(blockHeight int) (string, error) {
 	return blockHash, nil
 }
 
-// Get BlockTemplate
+// GetBlockTemplate - Get BlockTemplate
 func (c *DaemonClient) GetBlockTemplate(walletAddress string, reserveSize uint) (BlockTemplate, error) {
 	var bt BlockTemplate
 	req := struct {
@@ -47,7 +48,7 @@ func (c *DaemonClient) GetBlockTemplate(walletAddress string, reserveSize uint) 
 	return bt, nil
 }
 
-// Submit a mined block to the network.
+// SubmitBlock - Submit a mined block to the network.
 func (c *DaemonClient) SubmitBlock(blockBlobData string) (string, error) {
 	var status string
 	if err := call(c.endpoint, "submitblock", blockBlobData, &status); err != nil {
@@ -56,7 +57,7 @@ func (c *DaemonClient) SubmitBlock(blockBlobData string) (string, error) {
 	return status, nil
 }
 
-// Block header information for the most recent block is easily retrieved with this method. No inputs are needed.
+// GetLastBlockHeader - Block header information for the most recent block is easily retrieved with this method. No inputs are needed.
 func (c *DaemonClient) GetLastBlockHeader() (BlockHeaderResponse, error) {
 	var bhr BlockHeaderResponse
 	if err := call(c.endpoint, "getlastblockheader", nil, &bhr); err != nil {
@@ -65,7 +66,7 @@ func (c *DaemonClient) GetLastBlockHeader() (BlockHeaderResponse, error) {
 	return bhr, nil
 }
 
-// Block header information can be retrieved using either a block's hash or height.
+// GetBlockHeaderByHash - Block header information can be retrieved using either a block's hash or height.
 // This method includes a block's hash as an input parameter to retrieve basic information about the block.
 func (c *DaemonClient) GetBlockHeaderByHash(hash string) (BlockHeaderResponse, error) {
 	var bhr BlockHeaderResponse
@@ -80,7 +81,7 @@ func (c *DaemonClient) GetBlockHeaderByHash(hash string) (BlockHeaderResponse, e
 	return bhr, nil
 }
 
-// Similar to GetBlockHeaderByHash above, this method includes a block's height as an input parameter to retrieve basic information about the block.
+// GetBlockHeaderByHeight - Similar to GetBlockHeaderByHash above, this method includes a block's height as an input parameter to retrieve basic information about the block.
 func (c *DaemonClient) GetBlockHeaderByHeight(height uint) (BlockHeaderResponse, error) {
 	var bhr BlockHeaderResponse
 	if err := call(c.endpoint, "getblockheaderbyheight", height, &bhr); err != nil {
@@ -89,7 +90,7 @@ func (c *DaemonClient) GetBlockHeaderByHeight(height uint) (BlockHeaderResponse,
 	return bhr, nil
 }
 
-// Full block information can be retrieved by either block height or hash, like with the above block header calls.
+// GetBlock - Full block information can be retrieved by either block height or hash, like with the above block header calls.
 // For full block information, both lookups use the same method, but with different input parameters.
 func (c *DaemonClient) GetBlock(height uint, hash string) (Block, error) {
 	var b Block
@@ -106,7 +107,7 @@ func (c *DaemonClient) GetBlock(height uint, hash string) (Block, error) {
 	return b, nil
 }
 
-// Retrieve information about incoming and outgoing connections to your node.
+// GetConnections - Retrieve information about incoming and outgoing connections to your node.
 func (c *DaemonClient) GetConnections() (ConnectionResponse, error) {
 	var cr ConnectionResponse
 	if err := call(c.endpoint, "get_connections", nil, &cr); err != nil {
@@ -115,7 +116,7 @@ func (c *DaemonClient) GetConnections() (ConnectionResponse, error) {
 	return cr, nil
 }
 
-// Retrieve general information about the state of your node and the network.
+// GetInfo - Retrieve general information about the state of your node and the network.
 func (c *DaemonClient) GetInfo() (Info, error) {
 	var inf Info
 	if err := call(c.endpoint, "get_info", nil, &inf); err != nil {
@@ -124,7 +125,7 @@ func (c *DaemonClient) GetInfo() (Info, error) {
 	return inf, nil
 }
 
-// Look up information regarding hard fork voting and readiness.
+// GetHardForkInfo - Look up information regarding hard fork voting and readiness.
 func (c *DaemonClient) GetHardForkInfo() (HardForkInfo, error) {
 	var hi HardForkInfo
 	if err := call(c.endpoint, "hard_fork_info", nil, &hi); err != nil {
@@ -133,7 +134,7 @@ func (c *DaemonClient) GetHardForkInfo() (HardForkInfo, error) {
 	return hi, nil
 }
 
-// Ban another node by IP.
+// SetBans - Ban another node by IP.
 func (c *DaemonClient) SetBans(bans []Ban) (string, error) {
 	var status string
 	if err := call(c.endpoint, "setbans", nil, &status); err != nil {
@@ -142,7 +143,7 @@ func (c *DaemonClient) SetBans(bans []Ban) (string, error) {
 	return status, nil
 }
 
-// Get bans
+// GetBans - Get bans
 func (c *DaemonClient) GetBans() (BanResponse, error) {
 	var br BanResponse
 	if err := call(c.endpoint, "getbans", nil, &br); err != nil {
