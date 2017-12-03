@@ -20,11 +20,11 @@ func (c *WalletClient) StopWallet() error {
 	return nil
 }
 func (c *WalletClient) GetAddress() (string, error) {
-	var address string
-	if err := call(c.endpoint, "getaddress", nil, &address); err != nil {
-		return "", err
+	address := make(map[string]string)
+	if err := call(c.endpoint, "getaddress", nil, address); err != nil {
+		return "nil", err
 	}
-	return address, nil
+	return address["address"], nil
 }
 
 // RescanWalletChain - Rescans the blockchain for the wallet in use.
