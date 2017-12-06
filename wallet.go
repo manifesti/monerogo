@@ -19,12 +19,31 @@ func (c *WalletClient) StopWallet() error {
 	}
 	return nil
 }
+
+// GetAddress - Returns wallet address as a string.
 func (c *WalletClient) GetAddress() (string, error) {
 	address := make(map[string]string)
 	if err := call(c.endpoint, "getaddress", nil, &address); err != nil {
-		return "nil", err
+		return "", err
 	}
 	return address["address"], nil
+}
+
+// GetWalletHeight - Returns the current monero-wallet-rpc's blockchain height.
+func (c *WalletClient) GetWalletHeight() (uint, error) {
+	height := make(map[string]uint)
+	if err := call(c.endpoint, "getheight", nil, &height); err != nil {
+		return 0, err
+	}
+	return height["height"], nil
+}
+
+func (c *WalletClient) GetBalance() (*BalanceResponse, error) {
+	balance := new(BalanceResponse)
+	if err := call(c.endpoint, "getbalance", nil, balance); err != nil {
+		return balance, err
+	}
+	return balance, nil
 }
 
 // RescanWalletChain - Rescans the blockchain for the wallet in use.

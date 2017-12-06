@@ -9,8 +9,8 @@ package monerogo
 // unlocked_balance - unsigned int; Unlocked funds are those funds that are sufficiently deep enough in the Monero blockchain to be considered safe to spend.
 // status - string; General RPC error code. "OK" means everything looks good.
 type BalanceResponse struct {
-	Lockedbalance   uint `json:"lockedbalance"`
-	Unlockedbalance uint `json:"unlockedbalance"`
+	Lockedbalance   uint `json:"balance"`
+	Unlockedbalance uint `json:"unlocked_balance"`
 }
 
 // AddressResponse
